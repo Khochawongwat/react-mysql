@@ -22,6 +22,9 @@ const EditUser: React.FC = () => {
             email: Yup.string().email("Invalid email address").required("Email is required"),
         }),
         onSubmit: (values) => {
+            if(Object.keys(formik.errors).length > 0){
+                throw Error("Submitted while an error is present.")
+            }
             handleUpdateItem(values);
         },
     });
@@ -113,7 +116,7 @@ const EditUser: React.FC = () => {
                 <button className="btn btn-primary" onClick={() => navigate('/')}>
                     <FontAwesomeIcon icon={faArrowLeft} /> Back
                 </button>
-                <button type="submit" className="btn btn-primary">
+                <button disabled= {Object.keys(formik.errors).length > 0} type="submit" className="btn btn-primary">
                     <FontAwesomeIcon icon={faSave} /> Update
                 </button>
             </form>
